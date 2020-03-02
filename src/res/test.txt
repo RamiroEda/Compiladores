@@ -1,2 +1,8 @@
-Radio 6.4=int  float ) >=9.343
-main{ x=3; }
+
+prota(trozo hola){
+    const recto i = 0
+    i++
+    @
+
+    674736ksjfhs
+}

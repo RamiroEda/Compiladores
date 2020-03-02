@@ -1,4 +1,6 @@
 import java.nio.file.Paths
+import java.util.*
+import kotlin.collections.ArrayList
 
 /*
 * Ramiro Estrada García
@@ -8,12 +10,57 @@ import java.nio.file.Paths
 */
 
 val file = File("${Paths.get("").toAbsolutePath()}/src/res/test.txt")
+val lexicTable = initLexicTable()
+var lastWasBlankSpace = false
 
 fun main(){
-    println(metodo())
-    println(metodo())
-    println(metodo())
-    println(metodo())
+    print(getValidWords().joinToString("\n"))
+}
+
+fun getValidWords() : Array<String>{
+    val arrayListValidos = ArrayList<String>()
+    while (file.lastReadChar != File.EOF){
+        val palabra = metodo()
+        val isValid = isValid(palabra)
+        if(isValid == 0) {
+            arrayListValidos.add(palabra)
+        }else if(isValid == 1){
+            arrayListValidos.removeAt(arrayListValidos.lastIndex)
+        }
+    }
+
+    return arrayListValidos.toTypedArray()
+}
+
+fun isValid(palabra: String) : Int{
+    val lastWasBlankspaceCopy = lastWasBlankSpace
+    if(palabra.isBlank()){
+        lastWasBlankSpace = true
+        return -1
+    }else{
+        lastWasBlankSpace = false
+    }
+
+    return if(lexicTable.contains(palabra)){
+        0
+    }else if(!lastWasBlankspaceCopy){
+        1
+    }else if(palabra.startsWith(24.toChar())){
+        2
+    }else{
+        0
+    }
+}
+
+fun initLexicTable() : Array<String>{
+    val tableFile = Scanner(java.io.File("${Paths.get("").toAbsolutePath()}/src/res/tabla_simbolos.txt"))
+    val arrayList = ArrayList<String>()
+
+    while (tableFile.hasNextLine()){
+        arrayList.add(tableFile.nextLine())
+    }
+
+    return arrayList.toTypedArray()
 }
 
 fun metodo() : String{
@@ -28,11 +75,13 @@ fun metodo() : String{
     }
 
     val symbol = matchSymbol()
-    if(symbol.isNotEmpty()){
+    if(symbol.isNotEmpty() && lexicTable.contains(symbol)){
         return symbol
     }
 
-    return ""
+    if(symbol.isBlank()) return symbol
+
+    return "${24.toChar()}$symbol"
 }
 
 fun matchAlpha() : String{
@@ -64,7 +113,6 @@ fun matchSymbol() : String{
             file.readChar()
         }
     }
-
 
     return res
 }
