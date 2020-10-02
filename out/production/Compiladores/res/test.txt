@@ -1,8 +1,11 @@
 
-prota(trozo hola){
-    const recto i = 0
-    i++
-    @
+VAR IDENT;
 
-    674736ksjfhs
-}
+PROC IDENT :
+    IDENT = NUM;
+PROC IDENT :
+    LLAMAR IDENT;
+PROC IDENT :
+    CAMBIAR IDENT CASO NUM:
+    LEER IDENT;
+;;

@@ -1,0 +1,1 @@
+data class Nodo (val token : String, val children : ArrayList<Nodo> = ArrayList())

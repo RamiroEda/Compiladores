@@ -2,19 +2,15 @@ import java.nio.file.Paths
 import java.util.*
 import kotlin.collections.ArrayList
 
-/*
-* Ramiro Estrada García
-* 2015190034
-* Gerardo Ayala Juarez
-* 2015190005
-*/
-
 val file = File("${Paths.get("").toAbsolutePath()}/src/res/test.txt")
 val lexicTable = initLexicTable()
 var lastWasBlankSpace = false
 
 fun main(){
-    print(getValidWords().joinToString("\n"))
+    val tokens = getValidWords()
+    println(tokens.joinToString(", "))
+    val analisadorSintactico = AnalisadorSintactico(tokens)
+    print(analisadorSintactico.head)
 }
 
 fun getValidWords() : Array<String>{
